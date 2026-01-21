@@ -18,6 +18,8 @@ export function ModelSection() {
                             <p className="text-sm font-bold text-[#7b4a12] mb-1">Architecture Note</p>
                             <p className="text-sm opacity-70">Based on Transformer architecture with custom attention heads optimized for olfactory data patterns.</p>
                         </div>
+                        <br></br>
+                        <p className="text-sm opacity-70">Modelo hipotético con fines demostrativos</p>
                     </div>
 
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-black/5">

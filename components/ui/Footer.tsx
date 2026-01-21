@@ -13,16 +13,17 @@ export function Footer() {
                     <div className="text-xs space-y-1 opacity-70 border-l border-[#fbf5ea]/20 pl-6 hidden md:block">
                         <p className="font-bold uppercase tracking-widest text-[#7b4a12]/80 mb-2">Tecnologías</p>
                         <p><span className="opacity-60">Imágenes:</span> ChatGPT</p>
-                        <p><span className="opacity-60">Audios:</span> ElevenLabs</p>
+                        <p><span className="opacity-60">Audios:</span> ElevenLabs (Sound Effects)</p>
                         <p><span className="opacity-60">Prompts:</span> ChatGPT</p>
+                        <p><span className="opacity-60">Diseño:</span> Antigravity</p>
                     </div>
                 </div>
 
                 <div className="text-sm opacity-80 text-center md:text-right">
                     <div className="md:hidden mb-6 text-xs space-y-1 opacity-70">
                         <p className="font-bold uppercase tracking-widest text-[#7b4a12]/80 mb-2">Tecnologías</p>
-                        <p>Imágenes: ChatGPT | Código: Antigravity</p>
-                        <p>Audios: ElevenLabs | Prompts: ChatGPT</p>
+                        <p>Imágenes: ChatGPT | Diseño: Antigravity</p>
+                        <p>Audios: ElevenLabs| Sound Effects | Prompts: ChatGPT</p>
                     </div>
                     © {new Date().getFullYear()} CoffeeLab. Diseñado para explorar la IA y el café.
                     <br />
