@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card } from "../ui/Card";
 import { Modal } from "../ui/Modal";
 import { BadgeInfo } from "lucide-react";
+import Image from "next/image";
 
 interface CoffeeData {
     id: number;
@@ -15,6 +16,7 @@ interface CoffeeData {
     preparation: string;
     profile: string;
     funFact: string;
+    image: string;
 }
 
 const coffees: CoffeeData[] = [
@@ -27,7 +29,8 @@ const coffees: CoffeeData[] = [
         ratio: "1:2",
         preparation: "9 bar presión, 27s extracción",
         profile: "Floral, Jazmín, Cítrico",
-        funFact: "La curva de presión imita el latido cardíaco promedio en reposo."
+        funFact: "La curva de presión imita el latido cardíaco promedio en reposo.",
+        image: "/images/coffees/coffee-1.png"
     },
     {
         id: 2,
@@ -38,7 +41,8 @@ const coffees: CoffeeData[] = [
         ratio: "1:5",
         preparation: "Vaporización a 65°C constantes",
         profile: "Dulce, Caramelo, Chocolate",
-        funFact: "La microespuma se optimiza para retener aromas volátiles."
+        funFact: "La microespuma se optimiza para retener aromas volátiles.",
+        image: "/images/coffees/coffee-2.png"
     },
     {
         id: 3,
@@ -49,7 +53,8 @@ const coffees: CoffeeData[] = [
         ratio: "1:10",
         preparation: "Maceración 18 horas a 4°C",
         profile: "Nuez, Baja acidez, Intenso",
-        funFact: "El tiempo de extracción se calculó simulando 1000 iteraciones."
+        funFact: "El tiempo de extracción se calculó simulando 1000 iteraciones.",
+        image: "/images/coffees/coffee-3.png"
     },
     {
         id: 4,
@@ -60,7 +65,8 @@ const coffees: CoffeeData[] = [
         ratio: "1:15",
         preparation: "V60, Vertido en espiral áurea",
         profile: "Frutos rojos, Brillante, Limpio",
-        funFact: "El patrón de vertido sigue una secuencia de Fibonacci."
+        funFact: "El patrón de vertido sigue una secuencia de Fibonacci.",
+        image: "/images/coffees/coffee-4.png"
     },
     {
         id: 5,
@@ -71,7 +77,8 @@ const coffees: CoffeeData[] = [
         ratio: "1:1",
         preparation: "Leche apenas cortada con aire",
         profile: "Miel, Manzana, Cuerpo medio",
-        funFact: "Teóricamente, está caliente y frío hasta que lo tomas."
+        funFact: "Teóricamente, está caliente y frío hasta que lo tomas.",
+        image: "/images/coffees/coffee-5.png"
     },
     {
         id: 6,
@@ -82,7 +89,8 @@ const coffees: CoffeeData[] = [
         ratio: "1:7",
         preparation: "Fuego lento, tapa abierta",
         profile: "Terroso, Chocolate amargo, Robusto",
-        funFact: "Diseñado para evocar recuerdos nostálgicos generados sintéticamente."
+        funFact: "Diseñado para evocar recuerdos nostálgicos generados sintéticamente.",
+        image: "/images/coffees/coffee-6.png"
     }
 ];
 
@@ -108,11 +116,13 @@ export function CoffeeGrid() {
                             className="cursor-pointer hover:border-[#7b4a12]/30 group"
                             onClick={() => setSelectedCoffee(coffee)}
                         >
-                            <div className="h-48 bg-[#e8e0d5] rounded-xl mb-4 flex items-center justify-center overflow-hidden">
-                                {/* Placeholder visual for coffee */}
-                                <span className="text-6xl opacity-20 group-hover:scale-110 transition-transform duration-500">
-                                    ☕
-                                </span>
+                            <div className="relative h-48 bg-[#e8e0d5] rounded-xl mb-4 overflow-hidden">
+                                <Image
+                                    src={coffee.image}
+                                    alt={coffee.name}
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
                             </div>
                             <div className="space-y-2">
                                 <p className="text-xs font-bold tracking-widest text-[#7b4a12] uppercase">
