@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google"; // [MODIFY] Import new fonts
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,8 +13,37 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "CoffeeLab",
-  description: "Explora el arte del café y la tecnología.",
+  metadataBase: new URL("https://coffeelabbb.netlify.app"),
+  title: "CoffeeLab | Inteligencia Artificial & Café",
+  description:
+    "Explora cómo los modelos generativos redefinen nuestra conexión con el café. Un experimento de diseño y tecnología.",
+  icons: {
+    icon: "/favicon.svg",
+  },
+  openGraph: {
+    title: "CoffeeLab | IA & Café",
+    description:
+      "Donde la inteligencia artificial encuentra su sabor. Descubre prompts, imágenes generadas y audio inmersivo.",
+    url: "https://coffeelabbb.netlify.app",
+    siteName: "CoffeeLab",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "CoffeeLab - Vista previa",
+      },
+    ],
+    locale: "es_ES",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CoffeeLab | IA & Café",
+    description:
+      "Portfolio IA: prompts, imágenes generadas y audio, todo con estética CoffeeLab.",
+    images: ["/images/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -23,10 +52,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${playfair.variable} antialiased`}
-      >
+    <html lang="es">
+      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
         {children}
       </body>
     </html>
