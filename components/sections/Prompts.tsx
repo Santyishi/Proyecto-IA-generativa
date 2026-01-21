@@ -1,7 +1,7 @@
 "use client";
 
 import { Copy, Check, Maximize2 } from "lucide-react";
-import { useState, CSSProperties } from "react";
+import { useState, CSSProperties, useRef, useEffect } from "react";
 import { Button } from "../ui/Button";
 import { Modal } from "../ui/Modal";
 
@@ -72,6 +72,31 @@ const prompts: PromptData[] = [
         Siempre conectá café + IA con metáforas sutiles (algoritmos, redes, patrones), sin sonar a ciencia falsa.
         Cuando te pida contenido para cafés, mantené consistencia de estructura y longitud.
         Confirmá con “Listo” y esperá mi siguiente pedido.`
+    },
+    {
+        id: 10,
+        type: "Audio",
+        content: `Create a minimal 30-second coffee-making soundscape (no voices, no music). Keep it subtle and not busy: ambience bed throughout, one grinder moment, a short espresso extraction, a short steam wand texture, then a gentle pour and one cup/saucer clink. Clean, realistic, warm room tone, soft dynamics.`
+    },
+    {
+        id: 11,
+        type: "Audio",
+        content: `Cozy coffee shop ambience on a rainy afternoon, gentle rain hitting a window, distant soft cup clinks and room tone, very soft jazz playing far in the background (subtle, not dominant), no clear voices, 20 seconds.`
+    },
+    {
+        id: 12,
+        type: "Audio",
+        content: `Milk steaming with a steam wand, continuous steam hiss and microfoam texturing, realistic cafe equipment sound, close perspective, no voices, no music, 10 seconds.`
+    },
+    {
+        id: 13,
+        type: "Audio",
+        content: `Gentle rhythmic milk pour for latte art, smooth liquid stream, subtle cup resonance, calm and precise, close microphone, no voices, no music, 10 seconds.`
+    },
+    {
+        id: 14,
+        type: "Audio",
+        content: `Cup set down on a saucer, one clean spoon clink, a soft ceramic tap, close perspective, no voices, no music, 6 seconds.`
     }
 ];
 
@@ -85,6 +110,33 @@ export function Prompts() {
     const displayPrompts = filteredPrompts.length > 0
         ? [...filteredPrompts, ...filteredPrompts, ...filteredPrompts, ...filteredPrompts, ...filteredPrompts, ...filteredPrompts]
         : [];
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [isPaused, setIsPaused] = useState(false);
+
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+        if (!scrollContainer || isPaused) return;
+
+        let animationFrameId: number;
+        const speed = 0.8; // Adjust speed as needed
+
+        const scroll = () => {
+            if (scrollContainer) {
+                scrollContainer.scrollLeft += speed;
+
+                // Loop logic: if we've scrolled past half the content (since it's duplicated), reset to start
+                if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+                    scrollContainer.scrollLeft = 0;
+                }
+            }
+            animationFrameId = requestAnimationFrame(scroll);
+        };
+
+        animationFrameId = requestAnimationFrame(scroll);
+
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [isPaused, filter]); // Re-run when filter changes as displayPrompts might change
 
     const handleCopy = async (id: number, text: string) => {
         try {
@@ -126,10 +178,12 @@ export function Prompts() {
             {/* Marquee Container */}
             <div className="relative w-full overflow-hidden">
                 <div
-                    className="flex gap-6 pb-8 animate-marquee pl-4"
-                    style={{
-                        animationDuration: `${(displayPrompts.length / 2) * 15}s`
-                    } as CSSProperties}
+                    ref={scrollRef}
+                    className="flex gap-6 pb-8 overflow-x-auto scrollbar-hide px-4 md:px-0 select-none touch-pan-x"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onTouchStart={() => setIsPaused(true)}
+                    onTouchEnd={() => setIsPaused(false)}
                 >
                     {displayPrompts.map((prompt, index) => (
                         <div
