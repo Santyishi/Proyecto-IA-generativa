@@ -1,8 +1,9 @@
 "use client";
 
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Maximize2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/Button";
+import { Modal } from "../ui/Modal";
 
 interface PromptData {
     id: number;
@@ -19,7 +20,7 @@ const prompts: PromptData[] = [
     {
         id: 2,
         type: "Imagen",
-        content: "Fotografía macro de alta resolución de una gota de espresso cayendo en una taza de cerámica blanca, iluminación cinemática, vapor visible, profundidad de campo baja, estilo editorial."
+        content: "Icono cuadrado 1:1, estilo vector minimalista y realista, vista cenital (top-down) de una taza de café centrada. Dentro de la espuma, latte art formando claramente un signo de interrogación “?” (y un pequeño “+” sutil al lado del punto del signo). Paleta cálida (crema, marrón café), alto contraste, bordes limpios, sin texto, sin marcas, sin fondo o fondo transparente. Composición centrada, diseño muy simple y reconocible incluso a 32x32."
     },
     {
         id: 3,
@@ -36,6 +37,7 @@ const prompts: PromptData[] = [
 
 export function Prompts() {
     const [copiedId, setCopiedId] = useState<number | null>(null);
+    const [selectedPrompt, setSelectedPrompt] = useState<PromptData | null>(null);
 
     const handleCopy = async (id: number, text: string) => {
         try {
@@ -55,24 +57,35 @@ export function Prompts() {
                         Prompts de Ejemplo
                     </h2>
                     <p className="text-[#5e380e]">
-                        Copia estos prompts para probar en tus propios modelos de IA.
+                       Estos son los prompts utilizados para generar el contenido de CoffeeLab. Se muestran para evidenciar el proceso y las decisiones de diseño.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {prompts.map((prompt) => (
-                        <div key={prompt.id} className="relative bg-[#fbf5ea] p-8 rounded-2xl border border-black/5 hover:shadow-md transition-shadow">
-                            <div className="inline-block px-3 py-1 rounded-full bg-[#7b4a12]/10 text-[#7b4a12] text-xs font-bold uppercase tracking-wider mb-4">
-                                {prompt.type}
+                        <div
+                            key={prompt.id}
+                            className="relative bg-[#fbf5ea] p-8 rounded-2xl border border-black/5 hover:shadow-md transition-all hover:scale-[1.02] cursor-pointer flex flex-col"
+                            onClick={() => setSelectedPrompt(prompt)}
+                        >
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="inline-block px-3 py-1 rounded-full bg-[#7b4a12]/10 text-[#7b4a12] text-xs font-bold uppercase tracking-wider">
+                                    {prompt.type}
+                                </div>
+                                <Maximize2 size={16} className="text-[#7b4a12] opacity-50" />
                             </div>
-                            <p className="font-mono text-sm text-[#5e380e] mb-12 leading-relaxed">
-                                {prompt.content}
-                            </p>
 
-                            <div className="absolute bottom-8 right-8">
+                            <div className="font-mono text-sm text-[#5e380e] mb-12 leading-relaxed line-clamp-4 flex-grow">
+                                {prompt.content}
+                            </div>
+
+                            <div className="mt-auto flex justify-end">
                                 <Button
                                     variant="secondary"
-                                    onClick={() => handleCopy(prompt.id, prompt.content)}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleCopy(prompt.id, prompt.content);
+                                    }}
                                     className="!px-4 !py-2 text-sm flex items-center gap-2"
                                 >
                                     {copiedId === prompt.id ? <Check size={16} /> : <Copy size={16} />}
@@ -82,6 +95,30 @@ export function Prompts() {
                         </div>
                     ))}
                 </div>
+
+                <Modal isOpen={!!selectedPrompt} onClose={() => setSelectedPrompt(null)}>
+                    {selectedPrompt && (
+                        <div className="p-8">
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="inline-block px-3 py-1 rounded-full bg-[#7b4a12]/10 text-[#7b4a12] text-xs font-bold uppercase tracking-wider">
+                                    {selectedPrompt.type}
+                                </div>
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => handleCopy(selectedPrompt.id, selectedPrompt.content)}
+                                    className="!px-4 !py-2 text-sm flex items-center gap-2"
+                                >
+                                    {copiedId === selectedPrompt.id ? <Check size={16} /> : <Copy size={16} />}
+                                    {copiedId === selectedPrompt.id ? "Copiado" : "Copiar"}
+                                </Button>
+                            </div>
+
+                            <div className="bg-white p-6 rounded-xl border border-black/5 font-mono text-sm text-[#5e380e] leading-relaxed whitespace-pre-wrap max-h-[60vh] overflow-y-auto">
+                                {selectedPrompt.content}
+                            </div>
+                        </div>
+                    )}
+                </Modal>
             </div>
         </section>
     );
