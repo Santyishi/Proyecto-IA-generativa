@@ -23,8 +23,14 @@ const prompts: PromptData[] = [
     },
     {
         id: 3,
-        type: "Audio",
-        content: "Genera un paisaje sonoro de 30 segundos de una cafetería bulliciosa en París: tintineo de tazas, murmullo suave de conversaciones en francés, máquina de espresso de fondo, lluvia suave en el exterior."
+        type: "Texto",
+        content: `Escribí un texto MUY breve en español para una sección titulada “El Modelo Fundacional” en una landing llamada CoffeeLab. Debe sonar como marketing técnico (seguro, claro) y mencionar un modelo ficticio llamado Arabica-LLM
+
+        REQUISITOS:
+        - 2 oraciones (máximo 35/45 palabras en total).
+        - Sin listas, sin emojis, sin comillas.
+        - Incluir: entrenado con más de 50,000 fuentes (recetas de baristas, botánica y reseñas sensoriales), diferencia vs modelos genéricos, entiende la química de la extracción y predice perfiles de sabor según altitud de cultivo y curva de tueste.
+        Devolvé SOLO el texto final.`
     }
 ];
 
